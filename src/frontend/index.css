@@ -1,0 +1,312 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ────────────────────────────────────────────────
+   Lavender Birthday Theme — OKLCH Design Tokens
+   Primary: Soft Lavender/Violet
+   Accent:  Blush Pink
+   Neutral: Warm White
+──────────────────────────────────────────────── */
+
+@layer base {
+  :root {
+    --radius: 1rem;
+
+    /* Core semantic tokens */
+    --background:      0.97 0.012 295;
+    --foreground:      0.25 0.04 295;
+
+    --card:            0.99 0.005 295;
+    --card-foreground: 0.25 0.04 295;
+
+    --popover:         0.99 0.005 295;
+    --popover-foreground: 0.25 0.04 295;
+
+    /* Primary = deep lavender/violet */
+    --primary:         0.52 0.18 295;
+    --primary-foreground: 0.99 0 0;
+
+    /* Secondary = pale lavender */
+    --secondary:       0.93 0.04 295;
+    --secondary-foreground: 0.35 0.1 295;
+
+    --muted:           0.94 0.025 295;
+    --muted-foreground: 0.55 0.06 295;
+
+    /* Accent = blush pink */
+    --accent:          0.94 0.04 340;
+    --accent-foreground: 0.35 0.1 340;
+
+    --destructive:     0.65 0.18 22;
+    --destructive-foreground: 0.99 0 0;
+
+    --border:          0.88 0.04 295;
+    --input:           0.90 0.04 295;
+    --ring:            0.52 0.18 295;
+
+    /* Chart colors — lavender/pink palette */
+    --chart-1: 0.52 0.18 295;
+    --chart-2: 0.70 0.15 340;
+    --chart-3: 0.65 0.14 270;
+    --chart-4: 0.78 0.10 300;
+    --chart-5: 0.85 0.08 310;
+
+    /* Sidebar */
+    --sidebar:                  0.96 0.02 295;
+    --sidebar-foreground:       0.25 0.04 295;
+    --sidebar-primary:          0.52 0.18 295;
+    --sidebar-primary-foreground: 0.99 0 0;
+    --sidebar-accent:           0.93 0.04 295;
+    --sidebar-accent-foreground: 0.35 0.1 295;
+    --sidebar-border:           0.88 0.04 295;
+    --sidebar-ring:             0.52 0.18 295;
+
+    /* Custom app tokens */
+    --lavender-soft:    0.94 0.04 295;
+    --lavender-mid:     0.80 0.10 295;
+    --lavender-deep:    0.52 0.18 295;
+    --lavender-darkest: 0.35 0.18 295;
+    --blush:            0.92 0.05 340;
+    --blush-mid:        0.78 0.12 340;
+    --gold:             0.82 0.14 80;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, 'Georgia Pro', Georgia, serif;
+  }
+}
+
+/* ────────────────────────────────────────────────
+   Custom Font Families
+──────────────────────────────────────────────── */
+
+.font-display {
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, 'Georgia Pro', Georgia, serif;
+  letter-spacing: 0.01em;
+}
+
+.font-body {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+/* ────────────────────────────────────────────────
+   Floating Hearts Background
+──────────────────────────────────────────────── */
+
+.hearts-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hearts-bg .heart {
+  position: absolute;
+  bottom: -60px;
+  font-size: 1.5rem;
+  animation: floatHeart linear infinite;
+  opacity: 0;
+  user-select: none;
+}
+
+@keyframes floatHeart {
+  0%   { transform: translateY(0) scale(0.8) rotate(-15deg); opacity: 0; }
+  10%  { opacity: 0.7; }
+  80%  { opacity: 0.4; }
+  100% { transform: translateY(-110vh) scale(1.2) rotate(15deg); opacity: 0; }
+}
+
+/* Sparkle twinkle */
+@keyframes sparkle {
+  0%, 100% { opacity: 0; transform: scale(0.5) rotate(0deg); }
+  50%       { opacity: 1; transform: scale(1.2) rotate(180deg); }
+}
+
+.sparkle {
+  animation: sparkle ease-in-out infinite;
+}
+
+/* ────────────────────────────────────────────────
+   Countdown Cards
+──────────────────────────────────────────────── */
+
+.countdown-card {
+  background: oklch(var(--card));
+  border: 2px solid oklch(var(--primary) / 0.25);
+  border-radius: 1.25rem;
+  box-shadow:
+    0 4px 24px oklch(var(--primary) / 0.12),
+    0 1px 4px oklch(var(--primary) / 0.08);
+  padding: 1.25rem 1.75rem;
+  text-align: center;
+  backdrop-filter: blur(8px);
+}
+
+.countdown-number {
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+  font-size: clamp(2.5rem, 8vw, 4.5rem);
+  font-weight: 700;
+  color: oklch(var(--lavender-deep));
+  line-height: 1;
+  text-shadow: 0 2px 12px oklch(var(--primary) / 0.3);
+}
+
+.countdown-label {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', Arial, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: oklch(var(--muted-foreground));
+  margin-top: 0.25rem;
+}
+
+/* ────────────────────────────────────────────────
+   Gallery Cards
+──────────────────────────────────────────────── */
+
+.gallery-card {
+  position: relative;
+  border: 2px solid oklch(var(--primary) / 0.35);
+  border-radius: 1rem;
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.3s ease,
+              border-color 0.3s ease;
+  cursor: pointer;
+}
+
+.gallery-card:hover {
+  transform: scale(1.04) translateY(-4px);
+  box-shadow: 0 12px 40px oklch(var(--primary) / 0.25);
+  border-color: oklch(var(--primary) / 0.6);
+}
+
+/* ────────────────────────────────────────────────
+   Lightbox
+──────────────────────────────────────────────── */
+
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: oklch(0.1 0.05 295 / 0.88);
+  backdrop-filter: blur(12px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ────────────────────────────────────────────────
+   Gradient Backgrounds
+──────────────────────────────────────────────── */
+
+.bg-lavender-gradient {
+  background: linear-gradient(
+    135deg,
+    oklch(0.94 0.05 295) 0%,
+    oklch(0.96 0.04 320) 30%,
+    oklch(0.97 0.03 340) 60%,
+    oklch(0.95 0.04 295) 100%
+  );
+}
+
+.bg-hero-gradient {
+  background: linear-gradient(
+    160deg,
+    oklch(0.90 0.07 295) 0%,
+    oklch(0.88 0.09 310) 35%,
+    oklch(0.92 0.06 340) 65%,
+    oklch(0.89 0.08 285) 100%
+  );
+}
+
+/* Message card gradient */
+.bg-message-card {
+  background: linear-gradient(
+    135deg,
+    oklch(0.97 0.03 295) 0%,
+    oklch(0.98 0.02 320) 50%,
+    oklch(0.97 0.03 340) 100%
+  );
+}
+
+/* ────────────────────────────────────────────────
+   Burst Heart (DOM-injected animation)
+──────────────────────────────────────────────── */
+
+@keyframes burstHeart {
+  0%   { transform: translate(-50%, -50%) scale(0) rotate(0deg); opacity: 1; }
+  40%  { opacity: 1; }
+  100% { transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1) rotate(var(--rot)); opacity: 0; }
+}
+
+.burst-heart {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9998;
+  font-size: 1.6rem;
+  animation: burstHeart 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* ────────────────────────────────────────────────
+   Global scrollbar
+──────────────────────────────────────────────── */
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: oklch(0.95 0.02 295);
+}
+::-webkit-scrollbar-thumb {
+  background: oklch(0.70 0.12 295);
+  border-radius: 3px;
+}
+
+/* ────────────────────────────────────────────────
+   Animations
+──────────────────────────────────────────────── */
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 oklch(var(--primary) / 0.4); }
+  50%       { box-shadow: 0 0 0 12px oklch(var(--primary) / 0); }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-fade-in {
+  animation: fadeIn 1s ease both;
+}
+
+.btn-pulse:hover {
+  animation: pulse-glow 1.5s ease-in-out infinite;
+}
+
+/* Accordion (preserve) */
+@keyframes accordion-down {
+  from { height: 0; }
+  to   { height: var(--radix-accordion-content-height); }
+}
+@keyframes accordion-up {
+  from { height: var(--radix-accordion-content-height); }
+  to   { height: 0; }
+}
