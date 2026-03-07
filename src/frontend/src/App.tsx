@@ -454,8 +454,8 @@ interface GalleryItem {
   id: string;
   dataOcid: string;
   caption?: string;
-  bg: string;
-  icon: string;
+  bg?: string;
+  icon?: string;
   label: string;
   src?: string;
 }
@@ -479,7 +479,7 @@ function GalleryCard({
       {/* Image area */}
       <div
         className="aspect-square flex flex-col items-center justify-center gap-3 overflow-hidden"
-        style={{ background: item.bg }}
+        style={{ background: item.bg ?? "oklch(0.90 0.07 295)" }}
       >
         {item.src ? (
           <img
@@ -640,45 +640,74 @@ const MEMORIES: GalleryItem[] = [
   {
     id: "m1",
     dataOcid: "memories.item.1",
-    bg: "linear-gradient(135deg, oklch(0.88 0.10 295) 0%, oklch(0.92 0.07 310) 100%)",
-    icon: "📸",
+    src: "/assets/uploads/Screenshot_20260308_023505_Gallery-1.jpg",
     label: "Together",
-    src: "/assets/uploads/Screenshot_20260308_022432_Gallery-1.jpg",
   },
   {
     id: "m2",
     dataOcid: "memories.item.2",
-    bg: "linear-gradient(135deg, oklch(0.90 0.08 310) 0%, oklch(0.93 0.06 330) 100%)",
-    icon: "🤝",
+    src: "/assets/uploads/Screenshot_20260308_023031_Gallery-2.jpg",
     label: "Our first memory",
   },
   {
     id: "m3",
     dataOcid: "memories.item.3",
-    bg: "linear-gradient(135deg, oklch(0.87 0.09 285) 0%, oklch(0.91 0.07 300) 100%)",
-    icon: "💜",
+    src: "/assets/uploads/Screenshot_20260308_022432_Gallery-1-3.jpg",
     label: "Friends forever",
   },
   {
     id: "m4",
     dataOcid: "memories.item.4",
-    bg: "linear-gradient(135deg, oklch(0.91 0.07 300) 0%, oklch(0.89 0.09 315) 100%)",
-    icon: "🌸",
+    src: "/assets/uploads/Screenshot_20260308_023841_Gallery-4.jpg",
     label: "Beautiful day together",
   },
   {
     id: "m5",
     dataOcid: "memories.item.5",
-    bg: "linear-gradient(135deg, oklch(0.89 0.08 290) 0%, oklch(0.93 0.06 310) 100%)",
-    icon: "⭐",
+    src: "/assets/uploads/Screenshot_20260308_022812_Gallery-5.jpg",
     label: "Special moments",
   },
   {
     id: "m6",
     dataOcid: "memories.item.6",
-    bg: "linear-gradient(135deg, oklch(0.90 0.06 320) 0%, oklch(0.88 0.10 295) 100%)",
-    icon: "✨",
+    src: "/assets/uploads/Screenshot_20260308_023119_Gallery-6.jpg",
     label: "Our journey together",
+  },
+  {
+    id: "m7",
+    dataOcid: "memories.item.7",
+    src: "/assets/uploads/Screenshot_20260308_023415_Gallery-7.jpg",
+    label: "Memories we made",
+  },
+  {
+    id: "m8",
+    dataOcid: "memories.item.8",
+    src: "/assets/uploads/Screenshot_20260308_023210_Gallery-8.jpg",
+    label: "Smiling together",
+  },
+  {
+    id: "m9",
+    dataOcid: "memories.item.9",
+    src: "/assets/uploads/Screenshot_20260308_023255_Gallery-9.jpg",
+    label: "Good times",
+  },
+  {
+    id: "m10",
+    dataOcid: "memories.item.10",
+    src: "/assets/uploads/Screenshot_20260308_023550_Gallery-10.jpg",
+    label: "Best moments",
+  },
+  {
+    id: "m11",
+    dataOcid: "memories.item.11",
+    src: "/assets/uploads/Screenshot_20260308_023322_Gallery-11.jpg",
+    label: "Always together",
+  },
+  {
+    id: "m12",
+    dataOcid: "memories.item.12",
+    src: "/assets/uploads/Screenshot_20260308_023143_Gallery-12.jpg",
+    label: "Forever friends",
   },
 ];
 
@@ -686,16 +715,14 @@ const DEEPTI_PHOTOS: GalleryItem[] = [
   {
     id: "d1",
     dataOcid: "deepti.item.1",
-    bg: "linear-gradient(135deg, oklch(0.87 0.10 295) 0%, oklch(0.92 0.07 315) 100%)",
-    icon: "🌺",
+    src: "/assets/uploads/Screenshot_20260308_022057_Gallery-1.jpg",
     label: "Deepti",
     caption: "Your smile makes everything brighter.",
   },
   {
     id: "d2",
     dataOcid: "deepti.item.2",
-    bg: "linear-gradient(135deg, oklch(0.90 0.07 310) 0%, oklch(0.93 0.05 340) 100%)",
-    icon: "🌟",
+    src: "/assets/uploads/image-2.png",
     label: "Deepti",
     caption: "Always stay this happy.",
   },
