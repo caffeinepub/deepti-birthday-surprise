@@ -3,48 +3,12 @@ import { useCallback, useEffect, useRef, useState } from "react";
 // ────────────────────────────────────────────────
 // Types
 // ────────────────────────────────────────────────
-type Page = "login" | "countdown" | "surprise";
-
-interface TimeLeft {
-  days: number;
-  hours: number;
-  minutes: number;
-  seconds: number;
-}
+type Page = "login" | "surprise";
 
 interface LightboxItem {
   src: string | null;
   caption?: string;
   index: number;
-}
-
-// ────────────────────────────────────────────────
-// Helpers
-// ────────────────────────────────────────────────
-
-/** Returns the next March 11 00:00:00 local time (or this year's if still future). */
-function getTargetDate(): Date {
-  const now = new Date();
-  const year = now.getFullYear();
-  const thisYear = new Date(year, 2, 11, 0, 0, 0); // March = 2 (0-indexed)
-  if (now < thisYear) return thisYear;
-  return new Date(year + 1, 2, 11, 0, 0, 0);
-}
-
-function getTimeLeft(target: Date): TimeLeft {
-  const diff = target.getTime() - Date.now();
-  if (diff <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0 };
-  const totalSecs = Math.floor(diff / 1000);
-  return {
-    days: Math.floor(totalSecs / 86400),
-    hours: Math.floor((totalSecs % 86400) / 3600),
-    minutes: Math.floor((totalSecs % 3600) / 60),
-    seconds: totalSecs % 60,
-  };
-}
-
-function pad(n: number) {
-  return String(n).padStart(2, "0");
 }
 
 // ────────────────────────────────────────────────
@@ -309,139 +273,6 @@ function LoginPage({ onSuccess }: { onSuccess: () => void }) {
         }
         .animate-shake { animation: shake 0.5s ease; }
       `}</style>
-    </div>
-  );
-}
-
-// ────────────────────────────────────────────────
-// Countdown Page
-// ────────────────────────────────────────────────
-
-function CountdownPage({ onComplete }: { onComplete: () => void }) {
-  const target = useRef(getTargetDate());
-  const [timeLeft, setTimeLeft] = useState<TimeLeft>(
-    getTimeLeft(target.current),
-  );
-  const [done, setDone] = useState(false);
-
-  useEffect(() => {
-    // Check immediately if already past
-    const remaining = getTimeLeft(target.current);
-    if (
-      remaining.days === 0 &&
-      remaining.hours === 0 &&
-      remaining.minutes === 0 &&
-      remaining.seconds === 0
-    ) {
-      setDone(true);
-      return;
-    }
-
-    const interval = setInterval(() => {
-      const tl = getTimeLeft(target.current);
-      setTimeLeft(tl);
-      if (
-        tl.days === 0 &&
-        tl.hours === 0 &&
-        tl.minutes === 0 &&
-        tl.seconds === 0
-      ) {
-        clearInterval(interval);
-        setDone(true);
-      }
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    if (done) {
-      const timer = setTimeout(() => onComplete(), 1800);
-      return () => clearTimeout(timer);
-    }
-  }, [done, onComplete]);
-
-  const units = [
-    { label: "Days", value: timeLeft.days },
-    { label: "Hours", value: timeLeft.hours },
-    { label: "Minutes", value: timeLeft.minutes },
-    { label: "Seconds", value: timeLeft.seconds },
-  ];
-
-  return (
-    <div
-      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
-      style={{
-        background:
-          "linear-gradient(160deg, oklch(0.90 0.07 295) 0%, oklch(0.93 0.05 310) 40%, oklch(0.95 0.04 340) 70%, oklch(0.91 0.07 285) 100%)",
-      }}
-      data-ocid="countdown.section"
-    >
-      <FloatingHearts count={24} />
-
-      {/* Top sparkle row */}
-      <div
-        className="relative z-10 mb-6 flex gap-3 text-2xl"
-        aria-hidden="true"
-      >
-        {["✨", "💜", "✨", "💜", "✨"].map((c, i) => (
-          <span
-            // biome-ignore lint/suspicious/noArrayIndexKey: static decorative list, order never changes
-            key={i}
-            className="sparkle"
-            style={{ animationDelay: `${i * 0.3}s`, animationDuration: "2s" }}
-          >
-            {c}
-          </span>
-        ))}
-      </div>
-
-      <p
-        className="relative z-10 font-display text-xl sm:text-2xl italic text-center mb-12 px-6 animate-fade-in-up"
-        style={{ color: "oklch(0.40 0.18 295)", animationDelay: "0.2s" }}
-      >
-        Something special is waiting for you...
-      </p>
-
-      {done ? (
-        <div
-          className="relative z-10 font-display text-3xl sm:text-4xl text-center animate-fade-in"
-          style={{ color: "oklch(0.40 0.18 295)" }}
-        >
-          🎉 It&apos;s time! Opening your surprise... 💜
-        </div>
-      ) : (
-        <div
-          className="relative z-10 flex flex-wrap justify-center gap-4 sm:gap-6 px-4 animate-fade-in-up"
-          style={{ animationDelay: "0.4s" }}
-          data-ocid="countdown.timer_card"
-        >
-          {units.map((u, i) => (
-            <div
-              key={u.label}
-              className="countdown-card"
-              style={{ animationDelay: `${0.1 * i}s` }}
-            >
-              <div className="countdown-number">{pad(u.value)}</div>
-              <div className="countdown-label">{u.label}</div>
-            </div>
-          ))}
-        </div>
-      )}
-
-      <p
-        className="relative z-10 font-body text-center mt-10 text-base px-6 animate-fade-in-up"
-        style={{ color: "oklch(0.52 0.10 295)", animationDelay: "0.6s" }}
-      >
-        A little patience... it&apos;ll be worth the wait 💜
-      </p>
-
-      {/* Target date display */}
-      <p
-        className="relative z-10 font-body text-center mt-4 text-sm px-6"
-        style={{ color: "oklch(0.62 0.08 295)" }}
-      >
-        Counting down to March 11 at midnight 🌙
-      </p>
     </div>
   );
 }
@@ -1143,10 +974,7 @@ export default function App() {
 
   return (
     <>
-      {page === "login" && <LoginPage onSuccess={() => setPage("countdown")} />}
-      {page === "countdown" && (
-        <CountdownPage onComplete={() => setPage("surprise")} />
-      )}
+      {page === "login" && <LoginPage onSuccess={() => setPage("surprise")} />}
       {page === "surprise" && <SurprisePage />}
     </>
   );
